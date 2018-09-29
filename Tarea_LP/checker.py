@@ -3,7 +3,7 @@ import re
 Token = []
 
 def tokenize(code):
-    #keywords = {'IF', 'THEN', 'ENDIF', 'FOR', 'NEXT', 'GOSUB', 'RETURN'}
+
     token_specification = [
         ('CODE_START',  r"\bHAI\b"),  
         ('CODE_END',  r"\bKTHXBYE\b"),           
@@ -44,12 +44,7 @@ def tokenize(code):
             Token.append((kind, value, line_num, column))
 
 
-#statements = '''
-#    IF quantity THEN
-#        total := total + price * quantity;
-#        tax := price * 0.05;
-#    ENDIF;
-#'''
+
 
 with open("check_me.txt","r") as file:
     read_data = file.read()
@@ -58,8 +53,8 @@ with open("check_me.txt","r") as file:
 
 tokenize(read_data)
 
-#for token in Token:
-#    print(token)
+for token in Token:
+    print(token)
 
 def isCorrectBinary(string):
 
@@ -124,7 +119,21 @@ def error_check(Token):
 
         typ,value,line,column = Token[pos][0],Token[pos][1],Token[pos][2],Token[pos][3]
 
-        if (typ == 'BINARY'):
+        if (typ == 'HAI'):
+
+            if (Token[0][0] != 'HAI'):
+
+                lista = [[Token[0]],False]
+                error_check.append(lista)
+
+            else:
+
+                lista = [[Token[0]],True]
+                error_check.append(lista)
+
+            pos += 1
+
+        elif (typ == 'BINARY'):
 
             flag = False
 
@@ -140,16 +149,39 @@ def error_check(Token):
 
                 end_line = len(Token) - 1
 
-            print(Token[pos:end_line+1])
-
             answer = isCorrectBinary(Token[pos:end_line+1])
 
             print(answer)
 
+            lista = [Token[pos:end_line+1],answer]
+
+            error_check.append(lista)
+
             pos = end_line + 1
+
+        elif (typ == 'CONDICIONAL'):
+
+            if (typ != 'O RLY?'):
+
+                for s in range(pos,len(Token)):
+
+                    if (Token[s][1] == 'OIC'):
+
+                        oic_pos = s
+                        break
+
+                lista = [Token[pos:oic_pos+1],False]
+                error_check.append(lista)
+
+                pos = oic_pos + 1 
+
+
+
 
         else:
 
-            pos += 1
+            lista = ["GARBAGE",False]
+
+            error_check.append(lista)
 
 error_check(Token)
