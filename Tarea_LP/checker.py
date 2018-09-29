@@ -111,7 +111,8 @@ def error_check(Token):
 
     end_line = 0
 
-    error_check = []
+    error_check = [] #Aqui agrego las lineas y verifico si tiene error (False) o no (True) 
+    #[ [lista,Bool]......... ]
 
     pos = 0
 
@@ -119,19 +120,87 @@ def error_check(Token):
 
         typ,value,line,column = Token[pos][0],Token[pos][1],Token[pos][2],Token[pos][3]
 
-        if (typ == 'HAI'):
+        if (typ == 'CODE_START'):
 
-            if (Token[0][0] != 'HAI'):
+            if (Token[0][1] != 'HAI'): #Si el inicio no es HAI
 
                 lista = [[Token[0]],False]
                 error_check.append(lista)
+                break
 
             else:
 
-                lista = [[Token[0]],True]
-                error_check.append(lista)
+                for i in range(pos,len(Token)):
+
+                    if (Token[i][2] != line):
+
+                        end_line = i - 1
+                        break
+
+                if (len(Token[pos:end_line+1]) > 1): #Verifica si en la linea donde se encuentra HAI, hay mas cosas
+
+                    lista = [Token[pos:end_line+1],False]
+                    error_check.append(lista)
+
+                else: #Si solo esta HAI alli:
+
+                    lista = [[Token[0]],True]
+                    error_check.append(lista)
 
             pos += 1
+
+        elif (typ == 'DECLARE'):
+
+            if (Token[pos-1][2] == line): #Verifica si I HAS A no es la primera palabra en la linea 
+
+                for i in range(pos,len(Token)):
+
+                    if (Token[i][2] != line):
+
+                        end_line = i - 1
+                        break
+
+                lista = [Token[pos-1:end_line+1],False]
+
+                error_check.append(lista)
+
+                pos = end_line + 1
+
+            else:
+
+                for i in range(pos,len(Token)):
+
+                    if (Token[i][2] != line):
+
+                        end_line = i - 1
+                        break
+
+                declare_check = Token[pos:end_line+1] #Para checkear si la estructura de I HAS A es correcta
+
+                if (not (len(declare_check) == 2 or len(declare_check) == 4)): # Verifica I HAS A num y I HAS A num ITZ 5
+                    lista = [declare_check,False]
+
+                    error_check.append(lista)
+
+                    pos += end_line + 1
+
+                else:
+
+                    if (len(declare_check) == 2 and declare_check[1][0] == 'VAR'): #Verifica si I HAS A num es correcto 
+
+                        lista = [declare_check,True]
+
+                        error_check.append(lista)
+
+                        pos += end_line + 1
+
+                    elif (declare_check[1][0] == 'VAR' and declare_check[2][0] == 'INICIALIZE' and declare_check[3][0] == 'NUMBER'): #Verifica si I HAS A num ITZ 5 es correcto
+
+                        lista = [declare_check,True]
+
+                        error_check.append(lista)
+
+                        pos += end_line + 1
 
         elif (typ == 'BINARY'):
 
@@ -149,7 +218,7 @@ def error_check(Token):
 
                 end_line = len(Token) - 1
 
-            answer = isCorrectBinary(Token[pos:end_line+1])
+            answer = isCorrectBinary(Token[pos:end_line+1]) #Devuelve un booleano que dice si la linea donde se encuentra el binario es correcta
 
             print(answer)
 
@@ -159,9 +228,9 @@ def error_check(Token):
 
             pos = end_line + 1
 
-        elif (typ == 'CONDICIONAL'):
+        elif (typ == 'CONDICIONAL'): #In progress...
 
-            if (typ != 'O RLY?'):
+            if (value != 'O RLY?'):
 
                 for s in range(pos,len(Token)):
 
@@ -173,15 +242,29 @@ def error_check(Token):
                 lista = [Token[pos:oic_pos+1],False]
                 error_check.append(lista)
 
-                pos = oic_pos + 1 
+                pos = oic_pos + 1
 
+            else:
+
+                if (error_check[len(error_check)-1][1] == True):
+
+                    pass
+
+                pos += 1 
 
 
 
         else:
 
-            lista = ["GARBAGE",False]
+            lista = ["GARBAGE",False] #In progress...
 
             error_check.append(lista)
 
+            pos += 1
+
+
+    print(error_check)
+
 error_check(Token)
+
+
