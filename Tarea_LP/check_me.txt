@@ -1,7 +1,7 @@
 
 HAI
 
-I HAS A num ITZ 5
+I HAS A      num ITZ 5
 I HAS A cont
 BOTH SAEM 2 AN 5
 cont R 7

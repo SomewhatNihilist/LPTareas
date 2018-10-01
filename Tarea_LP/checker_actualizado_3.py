@@ -7,12 +7,12 @@ def tokenize(code):
     temp_Token = []
 
     token_specification = [
-        ('CODE_START',  r"\bHAI\b"),  
-        ('CODE_END',  r"\bKTHXBYE\b"),           
+        ('CODE_START',  r"\bHAI\b"),
+        ('CODE_END',  r"\bKTHXBYE\b"),
         ('DECLARE',     r"\bI[ \t]+HAS[ \t]+A\b"),
         ('CONDICIONAL',r"\bO[ \t]+RLY\?\B|\bYA[ \t]+RLY\b|\bNO[ \t]+WAI\b|\bOIC\b"),
         ('INICIALIZE', r"\bITZ\b"),
-        ('ASSIGN', r"\bR\b"),            
+        ('ASSIGN', r"\bR\b"),
         ('BINARY',      r'\bSUM[ \t]+OF\b|\bDIFF[ \t]+OF\b|\bPRODUKT[ \t]+OF\b|\bQUOSHUNT[ \t]+OF\b|\bMOD[ \t]+OF\b|\bBIGGER[ \t]+OF\b|\bSMALLR[ \t]+OF\b|\bBOTH[ \t]+OF\b|\bEITHER[ \t]+OF\b|\bBOTH[ \t]+SAEM\b|\bDIFFRINT\b'),
         ('UNARIO', r"\bNOT\b|\bVISIBLE\b"),
         ('GIMMEH',r"\bGIMMEH\b"),
@@ -20,10 +20,10 @@ def tokenize(code):
         ('LOOP',r"\bIM[ \t]+IN[ \t]+YR\b"),
         ('LOOPOP', r"\b(NERFIN|UPPIN)[ \t]+YR\b"),
         ('VAR',      r"[A-Za-z][A-Za-z0-9_]*"),
-        ('NUMBER',  r'\d+(\.\d*)?'),   
-        ('NEWLINE', r'\n'),           
-        ('SKIP',    r'[ \t]+'),       
-        ('MISMATCH',r'.'),            
+        ('NUMBER',  r'\d+(\.\d*)?'),
+        ('NEWLINE', r'\n'),
+        ('SKIP',    r'[ \t]+'),
+        ('MISMATCH',r'.'),
     ]
     tok_regex = '|'.join('(?P<%s>%s)' % pair for pair in token_specification)
     line_num = 1
@@ -56,7 +56,7 @@ def tokenize(code):
 
         linea = temp_Token[token_counter][2]
 
-        for i in range(token_counter,len(temp_Token)):                
+        for i in range(token_counter,len(temp_Token)):
 
             if (temp_Token[i][2] != linea):
 
@@ -192,7 +192,7 @@ def error_mark(Token):
 
             else:
 
-                if (len(Token[pos][0]) == 2 and Token[pos][0][1][0] == 'VAR'): #Verifica si I HAS A num es correcto 
+                if (len(Token[pos][0]) == 2 and Token[pos][0][1][0] == 'VAR'): #Verifica si I HAS A num es correcto
 
                     Token[pos][1] = True
 
@@ -217,7 +217,7 @@ def error_mark(Token):
 
             try:
                 if (isExpression(Token[pos-1][0])):
-                    
+
                     for i in range(pos,len(Token)):
 
                         if (Token[i][0][0][0] == 'CONDICIONAL'and len(Token[i][0]) == 1):
@@ -283,7 +283,7 @@ def error_mark(Token):
 
         else:
             pass
-            
+
         if ((pos+1) in dont_check_me):
 
             pos += 2
@@ -297,8 +297,66 @@ def error_mark(Token):
 error_mark(Token)
 
 for token in Token:
-    print(token)    
+    print(token)
 
 
 
+colors = {# NOTE: Remember to close the coloring with clear
+          "blue":  "\033[34m", #Operadores (incluye ’AN’)
+          "cyan":  "\033[36m", #Condicionales
+          "purple":"\033[35m", #Loops
+          "green": "\033[32m", #HAI y KTHXBYE
+          "yellow":"\033[33m", #Declaracin e inicializacion de variables
+          "red":   "\033[31m", #Asignacion de variables, Entrada y Salida de datos
+          "error": "\033[30m\033[41m", #Error
+          "clear": "\033[0m",
+}
+type_color ={
+            'CODE_START':   colors["green"],
+            'CODE_END':     colors["green"],
+            'DECLARE':      colors["yellow"],
+            'CONDICIONAL':  colors["cyan"],
+            'INICIALIZE':   colors["yellow"],
+            'ASSIGN':       colors["red"],
+            'BINARY':       colors["blue"],
+            'NOT':       colors["blue"], #'UNARIO', r"\bNOT\b|\bVISIBLE\b"
+            'VISIBLE':       colors["red"],
+            'GIMMEH':       colors["red"],
+            'AN':           colors["blue"],
+            'LOOP':         colors["purple"],
+            'LOOPOP':       colors["purple"],
+}
+# COLOR TEST
+# cols = ("blue","cyan","purple","green","yellow","red","error","clear")
+# print(" ".join(["{0}{1}".format(Colors[i], i) for i in cols]))
 
+
+def print_colorize(filename, t_data):
+    # t_data = [
+    #   [ [(tipo,valor,linea= n,columna), ...], error linea],
+    #   [ [(tipo,valor,linea= n+1 ,columna), ...], error linea?], ...lineas...]
+
+    curr_line = 1
+    curr_data = 0
+    with open(filename, "r") as file:
+        for line in file:
+            line = line.rstrip("\n")
+            if curr_line == t_data[curr_data][0][0][2]:
+                if not t_data[curr_data][1]: # if line has error
+                    line = colors["error"] + line + colors["clear"]
+                else:
+                    diff = 0
+                    for type, val, l, c in t_data[curr_data][0]:
+                        if type == "UNARIO": type = val
+                        clr = type_color.get(type, "")
+                        added = clr + val + colors["clear"]
+                        print(">" + line[:c+diff] + line[c+len(added)+diff:])
+                        line = line[:c+diff] + added + line[c+len(added)+diff:]
+                        diff += len(added)
+                curr_data += 1
+            elif curr_line > t_data[curr_data][0][0][2]: pass
+            else: pass
+            print(line)
+            curr_line += 1
+
+print_colorize("check_me.txt", Token)
