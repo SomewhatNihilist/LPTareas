@@ -1,9 +1,12 @@
 import re
 
+archivo_codigo = "check_me.txt"
+
 Token = []
 
 def tokenize(code):
-
+    """tokenize
+    genera una lista de tokens por linea del codigo code"""
     temp_Token = []
 
     token_specification = [
@@ -39,7 +42,7 @@ def tokenize(code):
         elif kind == 'SKIP':
             pass
         elif kind == 'MISMATCH':
-            print(value)#raise RuntimeError(f'{value!r} unexpected on line {line_num}')
+            pass#print(value)#raise RuntimeError(f'{value!r} unexpected on line {line_num}')
         else:
             if kind == 'ID': #and value in keywords:
                 kind = value
@@ -76,21 +79,20 @@ def tokenize(code):
 
 
 
-with open("check_me.txt","r") as file:
+with open(archivo_codigo,"r") as file:
     read_data = file.read()
 
 #[(tipo,valor,linea,columna),.....]
 
 tokenize(read_data)
 
-'''
-Nombre Funcion: isCorrectBinary
-Parametro que recibe: una lista de tokens de la forma: [(tipo,valor,linea,columna),...]
-Valor retorno: Retorna un Booleano que indica si la lista de tokens forman un binario correcto (True) o incorrecto (False)
-Descripcion: La lista de tokens que recibe representa una linea o parte de una linea, en el cual se verifica si es una expresion binaria correcta o no
-'''
-def isCorrectBinary(string):
 
+
+def isCorrectBinary(string):
+    """Nombre Funcion: isCorrectBinary
+    Parametro que recibe: una lista de tokens de la forma: [(tipo,valor,linea,columna),...]
+    Valor retorno: Retorna un Booleano que indica si la lista de tokens forman un binario correcto (True) o incorrecto (False)
+    Descripcion: La lista de tokens que recibe representa una linea o parte de una linea, en el cual se verifica si es una expresion binaria correcta o no"""
     checker = list(string)
 
     j = len(checker) - 1
@@ -137,14 +139,13 @@ def isCorrectBinary(string):
 
         return False
 
-'''
-Nombre Funcion: isExpression
-Parametro que recibe: una lista de tokens de la forma: [(tipo,valor,linea,columna),...]
-Valor retorno: Retorna un booleano que indica si es expresion (True) o no (False)
-Descripcion: Verifica si los tokens dados (que representan una linea o parte de una linea) son una expresion o no
-'''
-def isExpression(string):
 
+def isExpression(string):
+    """Nombre Funcion: isExpression
+    Parametro que recibe: una lista de tokens de la forma: [(tipo,valor,linea,columna),...]
+    Valor retorno: Retorna un booleano que indica si es expresion (True) o no (False)
+    Descripcion: Verifica si los tokens dados (que representan una linea o parte de una linea) son una expresion o no
+    """
     if (isCorrectBinary(string)):
 
         return True
@@ -165,13 +166,12 @@ def isExpression(string):
 
         return False
 
-'''
-Nombre Funcion: error_mark
-Valor retorno: no retorna nada, modifica la lista Token de la forma: [ [[(tipo,valor,linea,columna),...],error_linea], ... ]
-Descripcion: Esta funcion indica si una linea contiene error o si es correcta, para su posterior coloreo
-'''
-def error_mark(Token):
 
+def error_mark(Token):
+    """Nombre Funcion: error_mark
+    Valor retorno: no retorna nada, modifica la lista Token de la forma: [ [[(tipo,valor,linea,columna),...],error_linea], ... ]
+    Descripcion: Esta funcion indica si una linea contiene error o si es correcta, para su posterior coloreo
+    """
     pos = 0
 
     dont_check_me = []
@@ -316,8 +316,8 @@ def error_mark(Token):
 
 error_mark(Token)
 
-for token in Token:
-    print(token)
+# for token in Token:
+#     print(token)
 
 
 
@@ -353,6 +353,9 @@ type_color ={
 
 
 def print_colorize(filename, t_data):
+    """print_colorize(str, data)
+    Printea el codigo en filename colorizado deacuerdo a los datos procesados en t_data
+    """
     # t_data = [
     #   [ [(tipo,valor,linea= n,columna), ...], error linea],
     #   [ [(tipo,valor,linea= n+1 ,columna), ...], error linea?], ...lineas...]
@@ -371,7 +374,7 @@ def print_colorize(filename, t_data):
                         if type == "UNARIO": type = val
                         clr = type_color.get(type, "")
                         added = clr + val + colors["clear"]
-                        print(">" + line[:c+diff] + line[c+len(added)+diff:])
+                        #print(">"+ line)# + line[:c+diff] + line[c+len(added)+diff:])
                         line = line[:c+diff] + added + line[c+len(added)+diff:]
                         diff += len(added)
                 curr_data += 1
@@ -380,4 +383,4 @@ def print_colorize(filename, t_data):
             print(line)
             curr_line += 1
 
-print_colorize("check_me.txt", Token)
+print_colorize(archivo_codigo, Token)
