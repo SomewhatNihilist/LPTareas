@@ -116,33 +116,36 @@ int l_setValue(tLista *list, char tipo, void *dato) {
 		return 1;
 	}
 	// TODO:Reducir esto a algo mas ordenado!
+	void *n;
 	switch (list->curr->next->tipo) {
 		case 'i':
-		switch (tipo) {
-			case 'i': // int -> int
-			*(int*)list->curr->next->dato = *(int*)dato;
-			break;
-			case 'b':
-			case 'c': // int -> char
-			void *n = realloc(list->curr->next->dato, sizeof(char));
-			if (n == NULL) return 1;
-			*(char*)n = *(char*)dato;
-			list->curr->next->dato = n;
-		}
+			switch (tipo) {
+				case 'i': // int -> int
+					*(int*)list->curr->next->dato = *(int*)dato;
+					break;
+				case 'b':
+				case 'c': // int -> char
+					n = realloc(list->curr->next->dato, sizeof(char));
+					if (n == NULL) return 1;
+					*(char*)n = *(char*)dato;
+					list->curr->next->dato = n;
+					break;
+			}
 		break;
 		case 'b':
 		case 'c':
-		switch (tipo) {
-			case 'b':
-			case 'c': // char -> char
-			*(char*)list->curr->next->dato = *(char*)dato;
-			break;
-			case 'i': // char -> int
-			void *n = realloc(list->curr->next->dato, sizeof(int));
-			if (n == NULL) return 1;
-			*(int*)n = *(int*)dato;
-			list->curr->next->dato = n;
-		}
+			switch (tipo) {
+				case 'b':
+				case 'c': // char -> char
+					*(char*)list->curr->next->dato = *(char*)dato;
+					break;
+				case 'i': // char -> int
+					n = realloc(list->curr->next->dato, sizeof(int));
+					if (n == NULL) return 1;
+					*(int*)n = *(int*)dato;
+					list->curr->next->dato = n;
+					break;
+			}
 	}
 	list->curr->next->tipo = tipo;
 	return 0;

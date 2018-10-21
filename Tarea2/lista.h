@@ -5,7 +5,7 @@
 typedef struct tNodo {
 	void* dato; // Claramente todos los tipos de datos caben en un char, pero eso no es lo que se busca para la tarea
 	char tipo; // 'i'=int=[0-9], 'c'=char=[A-F], 'b'=char=0,1
-	tNodo *next;
+	struct tNodo *next;
 } tNodo;
 
 typedef struct tLista {
@@ -35,5 +35,7 @@ void l_moveToPos(tLista *list, int pos);
 
 // int l_length(tLista *list)
 // int l_currPos(tLista *list) we'll be doing these directly.
+
+// Any lower level operations we'll be doing directly
 
 #endif

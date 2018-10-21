@@ -15,4 +15,4 @@ testmain: $(OBJ)
 .PHONY: clean
 #NOTE: remember to clean before using "git add ."!
 clean:
-	rm *.o testmain testdebug
+	rm *.o testmain
