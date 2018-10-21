@@ -18,5 +18,4 @@ void mutacionTipo(void* Lista);
 
 int evaluacionLista(int (*fun)(void*), void* Lista);
 
-void genetico(void (*muta)(void*), void (*cruce)(void*), int n, int iteraciones);
-
+void genetico(void (*muta)(void*), void (*cruce)(void*,void*), int n, int iteraciones);
