@@ -2,10 +2,11 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h> // Para generar un seed aleatorio
-
 #include "lista.h"
 
-/* definidos en list_structs.h, importados por lista.h
+#include "genetico.h"
+
+/* definidos en lista.h
 
 typedef struct tNodo {
 	void* dato; // Claramente todos los tipos de datos caben en un char, pero eso no es lo que se busca para la tarea
@@ -30,8 +31,7 @@ void* generarSolucion(int largo) {
 	l_init(l);
 	int r; char rc;
 	for (int i = 0; i < largo; i++) {
-		r = rand();
-		switch (r%3) {
+		switch (rand()%3) {
 			case 0: //'i'
 				r = rand()%10;
 				l_append(l, 'i', (void*)&r);
@@ -51,10 +51,22 @@ void* generarSolucion(int largo) {
 }
 
 void* copiar(void* Lista) {
-	return NULL;
+	tLista *l = (tLista*)Lista;
+	tLista *out = (tLista*)malloc(sizeof(tLista));
+	if (out == NULL) return NULL;
+	l_init(out);
+	tNodo curr;
+	for (l_moveToStart(l); l->pos < l->size; l_next(l)) {
+		curr = l_getValue(l);
+		l_append(out, curr.tipo, curr.dato);
+	}
+	return (void*)out;
 }
 
-void borrar(void* Lista);
+void borrar(void* Lista) {
+	l_clear((tLista*)Lista);
+	free(Lista);
+}
 
 void imprimirSolucion(void* Lista) {
 	// "formato (dato,tipo)"... como "(1,i), (D,c), (0,b)" o separado por lineas?
