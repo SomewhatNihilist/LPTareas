@@ -94,6 +94,12 @@ tNodo l_remove(tLista *list) {
 		n.dato = aux->dato;
 		list->curr->next = aux->next;
 		free(aux);
+		if (list->pos == list->size - 1) {
+			l_moveToPos(list, list->pos - 1);
+			list->tail = list->curr;
+			l_next(list);
+		}
+		list->size--;
 	}
 	return n;
 }
@@ -166,8 +172,20 @@ void l_next(tLista *list) {
 	}
 }
 void l_moveToPos(tLista *list, int pos) {
-	if (pos <= list->size) {
-		// TODO
+	if (pos < list->size - 1) {
+		if (pos <= 0) {
+			l_moveToStart(list);
+		} else {
+			if (pos < list->pos) {
+				l_moveToStart(list);
+			}
+			for (; list->pos != pos; l_next(list)) {}
+		}
+	} else {
+		l_moveToEnd(list);
+		if (pos >= list->size) {
+			l_next(list); // Pasado el ultimo elemento, acceso retorna tipo 'x' y dato NULL, insert == append
+		}
 	}
 }
 // int l_length(tLista *list)
