@@ -1,2 +1,2 @@
 
-int fun(void*);
+int fun(void* nodo);

@@ -4,6 +4,6 @@
 #include "fun.h"
 
 
-int fun(void*) {
+int fun(void* nodo) {
 	return 9001; //IT'S OVER NINE THOUSAND
 }
