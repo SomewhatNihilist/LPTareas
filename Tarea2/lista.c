@@ -107,7 +107,7 @@ tNodo l_remove(tLista *list) {
 tNodo l_getValue(tLista *list) {
 	tNodo n;
 	n.next = NULL;
-	if (list->size <= list->pos) { // Empty or past end of list
+	if (list->pos >= list->size) { // Empty or past end of list
 		n.tipo = 'x';
 		n.dato = NULL;
 	} else {
@@ -163,7 +163,7 @@ void l_moveToStart(tLista *list) {
 }
 void l_moveToEnd(tLista *list) {
 	list->curr = list->tail;
-	list->pos = list->size - 1;
+	list->pos = list->size?(list->size-1):0;
 }
 void l_next(tLista *list) {
 	if (list->size > list->pos) {
