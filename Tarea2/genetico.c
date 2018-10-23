@@ -152,15 +152,18 @@ int evaluacionLista(int (*fun)(void*), void* Lista) {
 
 void genetico(void (*muta)(void*), void (*cruce)(void*,void*), int n, int iteraciones) {
 
-	void *list1 = generarSolucion(n);
-	void *list2 = generarSolucion(n);
-	int score_list1 = evaluacionLista(fun,list1);
-	int score_list2 = evaluacionLista(fun,list2);
-	void *hijo1 = copiar(list1);
-	void *hijo2 = copiar(list2);
+	int score_list1,score_list2,score_hijo1,score_hijo2,scoreMutList1,scoreMutList2;
+	void* list1,list2,hijo1,hijo2,muta1,muta2;
+
+	list1 = generarSolucion(n);
+	list2 = generarSolucion(n);
+	score_list1 = evaluacionLista(fun,list1);
+	score_list2 = evaluacionLista(fun,list2);
+	hijo1 = copiar(list1);
+	hijo2 = copiar(list2);
 	cruce(hijo1,hijo2);
-	int score_hijo1 = evaluacionLista(fun,hijo1);
-	int score_hijo2 = evaluacionLista(fun,hijo2);
+	score_hijo1 = evaluacionLista(fun,hijo1);
+	score_hijo2 = evaluacionLista(fun,hijo2);
 
 	if (score_hijo1 > score_list1 && score_hijo2 > score_list2) {
 
@@ -171,9 +174,18 @@ void genetico(void (*muta)(void*), void (*cruce)(void*,void*), int n, int iterac
 
 	}
 
-	muta(list1);
-	muta(list2);
+	muta1 = copiar(list1);
+	muta2 = copiar(list2);
+	muta(muta1);
+	muta(muta2);
+	scoreMutList1 = evaluacionLista(fun,muta1);
+	scoreMutList2 = evaluacionLista(fun,muta2);
 
-	int scoreMutList1
+	if (scoreMutList1 > score_hijo1 && scoreMutList2 > score_hijo2) {
+
+		borrar(list1);
+		borrar(list2);
+
+	}
 
 }
