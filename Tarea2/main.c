@@ -49,14 +49,14 @@ int testing_functionality() {
 	borrar(a); borrar(b);
 
 	srand(0);
-	a = generarSolucion(1);
-	b = generarSolucion(1);
+	a = generarSolucion(6);
+	b = generarSolucion(6);
 	void *c = copiar(a);
 	void *d = copiar(b);
 	//Test cruces:
 	printf("\nCruces:\n    a: "); imprimirSolucion(a); //(E, c) (5, i) (1, b) (A, c) (1, i)
 	printf("    b: "); imprimirSolucion(b); //(1, b) (1, b) (0, b) (6, i) (E, c)
-	printf("\n medio:\n    a: "); cruceIntercalado(a, b); imprimirSolucion(a);
+	printf("\n medio:\n    a: "); cruceMedio(a, b); imprimirSolucion(a);
 	printf("    b: "); imprimirSolucion(b);
 	printf("\n inter:\n    a: "); cruceIntercalado(c, d); imprimirSolucion(c);
 	printf("    b: "); imprimirSolucion(d);
