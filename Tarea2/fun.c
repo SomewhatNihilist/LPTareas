@@ -5,5 +5,6 @@
 
 
 int fun(void* nodo) {
-	return 9001; //IT'S OVER NINE THOUSAND
+	tNodo*n = (tNodo*)nodo;
+	return rand();
 }

@@ -13,6 +13,7 @@ int testing_functionality();
 int testing_mutaciones();
 
 int main(int argc, char const *argv[]) {
+	genetico(mutacionRand, cruceIntercalado, 10, 20);
 	return testing_mutaciones();
 }
 

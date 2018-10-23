@@ -204,7 +204,7 @@ int evaluacionLista(int (*fun)(void*), void* Lista) {
 void genetico(void (*muta)(void*), void (*cruce)(void*,void*), int n, int iteraciones) {
 
 	int score_list1,score_list2,score_hijo1,score_hijo2,scoreMutList1,scoreMutList2;
-	void* list1,list2,hijo1,hijo2,muta1,muta2;
+	void *list1, *list2, *hijo1, *hijo2, *muta1, *muta2;
 	int i;
 	for (i = 0 ; i < iteraciones ; i++) {
 
@@ -244,9 +244,6 @@ void genetico(void (*muta)(void*), void (*cruce)(void*,void*), int n, int iterac
 
 			borrar(list2);
 			list2 = muta2;
-
 		}
-
 	}
-
 }
