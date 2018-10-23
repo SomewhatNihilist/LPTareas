@@ -40,7 +40,7 @@ void* generarSolucion(int largo) {
 				rc = 'A' + (char)(rand()%6);
 				l_append(l, 'c', (void*)&rc);
 				break;
-			case 2:
+			case 2: //'b'
 				rc = (char)(rand()%2);
 				l_append(l, 'b', (void*)&rc);
 				break;
@@ -135,9 +135,58 @@ void cruceIntercalado(void* Lista1, void* Lista2) {
 	}
 }
 
-void mutacionRand(void* Lista);
+void mutacionRand(void* Lista) {
+	tLista *l = (tLista*)Lista;
+	if (l->size == 0) return;
+	l_moveToPos(l, rand() % l->size);
+	int r; char rc;
+	switch (rand()%3) {
+		case 0: //'i'
+			if (l_getValue(l).tipo == 'i') {
+				r = rand()%9; //Evitamos el valor previo
+				r = (r < *((int*)l_getValue(l).dato))?r:r+1;
+			} else {
+				r = rand()%10;
+			}
+			l_setValue(l, 'i', (void*)(&r));
+			break;
+		case 1: //'c'
+			if (l_getValue(l).tipo == 'c') {
+				rc = rand()%5; //Evitamos el valor previo
+				rc = ((rc+'A' < *((char*)l_getValue(l).dato))?rc:rc+1) + 'A';
+			} else {
+				r = rand()%6;
+			}
+			l_setValue(l, 'c', (void*)(&r));
+			break;
+		case 2: //'b'
+			if (l_getValue(l).tipo == 'b') { //Si era 'b', solo niega el valor
+				*(char*)l_getValue(l).dato = !(*(char*)l_getValue(l).dato);
+			} else {
+				rc = rand()%2;
+				l_setValue(l, 'b', (void*)(&rc));
+			}
+	}
+}
 
-void mutacionTipo(void* Lista);
+void mutacionTipo(void* Lista) {
+	tLista *l = (tLista*)Lista;
+	if (l->size == 0) return;
+	l_moveToPos(l, rand() % l->size);
+	int r; char rc;
+	switch (l_getValue(l).tipo) {
+		case 'i':
+			r = rand()%9; //Evitamos el valor previo
+			r = (r < *((int*)l_getValue(l).dato))?r:r+1;
+			break;
+		case 'c':
+			rc = rand()%5; //Evitamos el valor previo
+			rc = ((rc+'A' < *((char*)l_getValue(l).dato))?rc:rc+1) + 'A';
+			break;
+		case 'b':
+			*(char*)l_getValue(l).dato = !(*(char*)l_getValue(l).dato);
+	}
+}
 
 int evaluacionLista(int (*fun)(void*), void* Lista) {
 	tLista *l = (tLista*)Lista;
