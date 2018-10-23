@@ -1,7 +1,7 @@
 
 CFLAGS=-I. -Wall
-DEPS = genetico.h lista.h
-OBJ = lista.o genetico.o main.o
+DEPS = genetico.h lista.h fun.c
+OBJ = lista.o genetico.o main.o fun.o
 
 %.o: %.c $(DEPS)
 	gcc -c -o $@ $< $(CFLAGS)
