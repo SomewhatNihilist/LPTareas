@@ -10,9 +10,10 @@
 void printNodo(tNodo node);
 
 int testing_functionality();
+int testing_mutaciones();
 
 int main(int argc, char const *argv[]) {
-	return testing_functionality();
+	return testing_mutaciones();
 }
 
 int testing_functionality() {
@@ -87,6 +88,16 @@ int testing_functionality() {
 	return EXIT_SUCCESS;
 }
 
+int testing_mutaciones() {
+	void *a = generarSolucion(1);
+	imprimirSolucion(a);//(E, c)
+	for (int i = 0; i < 12; i++) {
+		mutacionTipo(a);
+		imprimirSolucion(a);
+	}
+	borrar(a);
+	return EXIT_SUCCESS;
+}
 
 void printNodo(tNodo node) {
 	switch (node.tipo) {

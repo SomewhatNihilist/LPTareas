@@ -185,11 +185,13 @@ void mutacionTipo(void* Lista) {
 			rc = ((rc+'A' < *((char*)l_getValue(l).dato))?rc:rc+1) + 'A';
 			break;
 		case 'b':
-			*(char*)l_getValue(l).dato = !(*(char*)l_getValue(l).dato);
+			*(char*)l_getValue(l).dato = !(*(char*)l_getValue(l).dato);//Negamos
+		default:;
 	}
 }
 
 int evaluacionLista(int (*fun)(void*), void* Lista) {
+	//Simplemente iteramos sobre la lista y acumulamos FUN
 	tLista *l = (tLista*)Lista;
 	tNodo nd; int sum = 0;
 	for (l_moveToStart(l); l->pos < l->size; l_next(l)) {
