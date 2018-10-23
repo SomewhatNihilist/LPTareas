@@ -90,10 +90,11 @@ int testing_functionality() {
 }
 
 int testing_mutaciones() {
-	void *a = generarSolucion(1);
+	srand(0);
+	void *a = generarSolucion(2);
 	imprimirSolucion(a);//(E, c)
-	for (int i = 0; i < 12; i++) {
-		mutacionTipo(a);
+	for (int i = 0; i < 10; i++) {
+		mutacionRand(a); printf("%d ", i);
 		imprimirSolucion(a);
 	}
 	borrar(a);
