@@ -204,12 +204,12 @@ int evaluacionLista(int (*fun)(void*), void* Lista) {
 void genetico(void (*muta)(void*), void (*cruce)(void*,void*), int n, int iteraciones) {
 
 	int score_list1,score_list2,score_hijo1,score_hijo2,scoreMutList1,scoreMutList2;
+	int bestScore1,bestScore2;
 	void *list1, *list2, *hijo1, *hijo2, *muta1, *muta2;
+	list1 = generarSolucion(n);
+	list2 = generarSolucion(n);
 	int i;
 	for (i = 0 ; i < iteraciones ; i++) {
-
-		list1 = generarSolucion(n);
-		list2 = generarSolucion(n);
 
 		score_list1 = evaluacionLista(fun,list1);
 		score_list2 = evaluacionLista(fun,list2);
@@ -225,6 +225,13 @@ void genetico(void (*muta)(void*), void (*cruce)(void*,void*), int n, int iterac
 			borrar(list2);
 			list1 = hijo1;
 			list2 = hijo2;
+			bestScore1 = score_hijo1;
+			bestScore2 = score_hijo2;
+
+		} else {
+
+			bestScore1 = score_list1;
+			bestScore2 = score_list2;
 
 		}
 
@@ -239,11 +246,21 @@ void genetico(void (*muta)(void*), void (*cruce)(void*,void*), int n, int iterac
 
 			borrar(list1);
 			list1 = muta1;
+			bestScore1 = scoreMutList1;
 
 		} else if (scoreMutList2 > score_hijo2) {
 
 			borrar(list2);
 			list2 = muta2;
+			bestScore2 = scoreMutList2;
 		}
 	}
+
+	printf("Lista 1: \n");
+	imprimirSolucion(list1);
+	printf("Puntaje: %d\n", bestScore1);
+	printf("\nLista2: \n");
+	imprimirSolucion(list2);
+	printf("Puntaje: %d\n", bestScore2);
+
 }
