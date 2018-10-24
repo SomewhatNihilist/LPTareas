@@ -205,21 +205,29 @@ int evaluacionLista(int (*fun)(void*), void* Lista) {
 
 void genetico(void (*muta)(void*), void (*cruce)(void*,void*), int n, int iteraciones) {
 
-	int score_list1,score_list2,score_hijo1,score_hijo2,scoreMutList1,scoreMutList2;
-	int bestScore1,bestScore2;//Aqui se guardan los mejores puntajes
+	int score_list1, score_list2, score_hijo1, score_hijo2, scoreMutList1, scoreMutList2;
+	int bestScore1, bestScore2; // Aqui se guardan los mejores puntajes
 	void *list1, *list2, *hijo1, *hijo2, *muta1, *muta2;
-	list1 = generarSolucion(n); //Se crea lista 1
-	list2 = generarSolucion(n); //Se crea lista 2
+	list1 = generarSolucion(n); // Se crea lista 1
+	list2 = generarSolucion(n); // Se crea lista 2
 	int i;
-	for (i = 0 ; i < iteraciones ; i++) {//Se realizan las operaciones dado el numero de iteraciones
+	for (i = 0 ; i < iteraciones ; i++) { // Se realizan las operaciones dado el numero de iteraciones
 
-		score_list1 = evaluacionLista(fun,list1);//Se obtienen los puntajes de los padres con la funcion evaluacion
+		score_list1 = evaluacionLista(fun,list1); // Se obtienen los puntajes de los padres con la funcion evaluacion "fun"
 		score_list2 = evaluacionLista(fun,list2);
+
 		hijo1 = copiar(list1);
 		hijo2 = copiar(list2);
-		cruce(hijo1,hijo2);//Se crean los hijos realizando el cruce
-		score_hijo1 = evaluacionLista(fun,hijo1);//Se obtienen los puntajes de los hijos con la funcion evaluacion
+		cruce(hijo1,hijo2); // Se crean los hijos realizando el cruce
+		score_hijo1 = evaluacionLista(fun,hijo1); // Se obtienen los puntajes de los hijos con la funcion evaluacion "fun"
 		score_hijo2 = evaluacionLista(fun,hijo2);
+
+		muta1 = copiar(hijo1);
+		muta2 = copiar(hijo2);
+		muta(muta1); // Se crean hijos mutados realizando las mutaciones
+		muta(muta2);
+		scoreMutList1 = evaluacionLista(fun,muta1); // Se obtiene el puntaje de las mutaciones usando la funcion evaluacion "fun"
+		scoreMutList2 = evaluacionLista(fun,muta2);
 
 		if (score_hijo1 > score_list1 && score_hijo2 > score_list2) {
 			//Si los puntajes de ambos hijos son mayores que el de los padres, se reemplazan los padres por los hijos
@@ -229,32 +237,29 @@ void genetico(void (*muta)(void*), void (*cruce)(void*,void*), int n, int iterac
 			list2 = hijo2;
 			bestScore1 = score_hijo1;
 			bestScore2 = score_hijo2;
-
 		} else {
 			//En caso contrario, se mantienen los puntajes de los padres
+			borrar(hijo1);
+			borrar(hijo2);
 			bestScore1 = score_list1;
 			bestScore2 = score_list2;
-
 		}
 
-		muta1 = copiar(list1);
-		muta2 = copiar(list2);
-		muta(muta1);
-		muta(muta2);//Se crean hijos realizando las mutaciones
-		scoreMutList1 = evaluacionLista(fun,muta1);//Se obtiene el puntaje de las mutaciones usando la funcion evaluacion
-		scoreMutList2 = evaluacionLista(fun,muta2);
 
-		if (scoreMutList1 > score_hijo1) {
-			//Si el puntaje de cada mutacion es mejor a su padre, se reemplaza por su padre correspondiente
+		//Si el puntaje de cada mutacion es mejor a su padre, se reemplaza por su padre correspondiente
+		if (scoreMutList1 > bestScore1) {
 			borrar(list1);
 			list1 = muta1;
 			bestScore1 = scoreMutList1;
-
-		} else if (scoreMutList2 > score_hijo2) {
-
+		} else {
+			borrar(muta1);
+		}
+		if (scoreMutList2 > bestScore2) {
 			borrar(list2);
 			list2 = muta2;
 			bestScore2 = scoreMutList2;
+		} else {
+			borrar(muta2);
 		}
 	}
 	//Se muestra en pantalla los resultados finales
@@ -275,6 +280,6 @@ int main_temp() {
 	scanf("%d",&largo);
 	lista = generarSolucion(largo);
 	printf("Solucion generada: \n");
-	
-	
+
+
 }
