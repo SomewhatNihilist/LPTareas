@@ -1,5 +1,4 @@
 
-#include <stdlib.h>
 #include "lista.h"
 #include "fun.h"
 

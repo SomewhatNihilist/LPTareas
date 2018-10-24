@@ -274,12 +274,105 @@ void genetico(void (*muta)(void*), void (*cruce)(void*,void*), int n, int iterac
 
 int main_temp() {
 
-	int largo;
+	int largo,answer_c,answer_e,answer_b,answer_cruce,answer_mutacion,answer_g;
 	void *lista;
+	int score_lista;
 	printf("Ingrese largo: ");
 	scanf("%d",&largo);
 	lista = generarSolucion(largo);
 	printf("Solucion generada: \n");
-
-
+	imprimirSolucion(lista);
+	printf("Desea copiar la lista: Si(1) No(2): ");
+	scanf("%d",&answer_c);
+	if (answer_c == 1) {
+		void *copia = copiar(lista);
+		printf("Copia generada:\n");
+		imprimirSolucion(copia);
+	}
+	printf("Desea evaluar la lista: Si(1) No(2): ");
+	scanf("%d",&answer_e);
+	if (answer_e == 1) {
+		score_lista = evaluacionLista(fun,lista);
+		printf("Puntaje obtenido: %d\n",score_lista);
+	}
+	printf("Desea borrar la lista: Si(1) No(2): ");
+	scanf("%d",&answer_b);
+	if (answer_b == 1) {
+		borrar(lista);
+		printf("Lista borrada\n");
+	}
+	printf("Desea realizar cruces: Si(1) No(2): ");
+	scanf("%d",&answer_cruce);
+	if (answer_cruce == 1) {
+		int len_1,len_2;
+		printf("Ingrese largo lista 1: ");
+		scanf("%d",&len_1);
+		printf("Ingrese largo lista 2: ");
+		scanf("%d",&len_2);
+		void *lista_1 = generarSolucion(len_1);
+		void *lista_2 = generarSolucion(len_2);
+		void *copia_1 = copiar(lista_1);
+		void *copia_2 = copiar(lista_2);
+		printf("Listas generadas:\n");
+		imprimirSolucion(lista_1);
+		imprimirSolucion(lista_2);
+		printf("Se aplica cruce intercalado y medio a las listas dadas\n");
+		cruceIntercalado(lista_1,lista_2);
+		cruceMedio(copia_1,copia_2);
+		printf("Cruce intercalado:\n");
+		imprimirSolucion(lista_1);
+		imprimirSolucion(lista_2);
+		printf("Cruce medio:\n");
+		imprimirSolucion(copia_1);
+		imprimirSolucion(copia_2);
+		borrar(lista_1);
+		borrar(lista_2);
+		borrar(copia_1);
+		borrar(copia_2);
+	}
+	printf("Desea realizar mutaciones: Si(1) No(2): ");
+	scanf("%d",&answer_mutacion);
+	if (answer_mutacion == 1) {
+		int len_lista;
+		printf("Ingrese largo lista : ");
+		scanf("%d",&len_lista);
+		void *lista_mut = generarSolucion(len_lista);
+		void *copia_mut = copiar(lista_mut);
+		printf("Lista generada:\n");
+		imprimirSolucion(lista_mut);
+		printf("Se aplica mutacion random y de tipo a la lista dada\n");
+		mutacionRand(lista_mut);
+		mutacionTipo(copia_mut);
+		printf("Mutacion random:\n");
+		imprimirSolucion(lista_mut);
+		printf("Mutacion de tipo:\n");
+		imprimirSolucion(copia_mut);
+		borrar(lista_mut);
+		borrar(copia_mut);
+	}
+	printf("Desea ejecutar la funcion genetico: Si(1) No(2)");
+	scanf("%d",&answer_g);
+	int len_g,n_iter,mutacion,cruce;
+	while(answer_g != 2) {
+		printf("Ingrese largo de las listas: ");
+		scanf("%d",&len_g);
+		printf("Ingrese cantidad de iteraciones: ");
+		scanf("%d",&n_iter);
+		printf("Elija mutacion: Rand(1) Tipo(2): ");
+		scanf("%d",&mutacion);
+		printf("Elija cruce: Intercalado(1) Medio(2)\n");
+		scanf("%d",&cruce);
+		if (mutacion == 1 && cruce == 1) {
+			genetico(mutacionRand,cruceIntercalado,len_g,n_iter);
+		} else if (mutacion == 1 && cruce == 2) {
+			genetico(mutacionRand,cruceMedio,len_g,n_iter);
+		} else if (mutacion == 2 && cruce == 1) {
+			genetico(mutacionTipo,cruceIntercalado,len_g,n_iter);
+		} else if (mutacion == 2 && cruce == 2) {
+			genetico(mutacionTipo,cruceMedio,len_g,n_iter);
+		}
+		printf("Desea ejecutar genetico otra vez: Si(1) No(2): ");
+		scanf("%d",&answer_g);
+	}
+	return 0;
 }

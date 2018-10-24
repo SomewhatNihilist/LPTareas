@@ -13,8 +13,9 @@ int testing_functionality();
 int testing_mutaciones();
 
 int main(int argc, char const *argv[]) {
-	genetico(mutacionRand, cruceIntercalado, 10, 20);
-	return testing_mutaciones();
+	srand(time(NULL));
+	genetico(mutacionRand, cruceIntercalado, 2, 10);
+	return 0;//testing_mutaciones();
 }
 
 int testing_functionality() {

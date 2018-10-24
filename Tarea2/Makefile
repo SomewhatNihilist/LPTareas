@@ -2,11 +2,12 @@
 CFLAGS=-I. -Wall
 DEPS = genetico.h lista.h fun.c
 OBJ = lista.o genetico.o main.o fun.o
+OUTPUT = main
 
 %.o: %.c $(DEPS)
 	gcc -c -o $@ $< $(CFLAGS)
 
-testmain: $(OBJ)
+$(OUTPUT): $(OBJ)
 	gcc -o $@ $^ $(CFLAGS)
 
 #testdebug: $(OBJ)
@@ -15,4 +16,4 @@ testmain: $(OBJ)
 .PHONY: clean
 #NOTE: remember to clean before using "git add ."!
 clean:
-	rm *.o testmain
+	rm *.o $(OUTPUT)
