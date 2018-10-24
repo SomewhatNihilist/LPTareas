@@ -156,9 +156,9 @@ void mutacionRand(void* Lista) {
 				rc = rand()%5; //Evitamos el valor previo
 				rc = ((rc+'A' < *((char*)l_getValue(l).dato))?rc:rc+1) + 'A';
 			} else {
-				r = rand()%6;
+				rc = rand()%6 + 'A';
 			}
-			l_setValue(l, 'c', (void*)(&r));
+			l_setValue(l, 'c', (void*)(&rc));
 			break;
 		case 2: //'b'
 			if (l_getValue(l).tipo == 'b') { //Si era 'b', solo niega el valor
@@ -179,10 +179,12 @@ void mutacionTipo(void* Lista) {
 		case 'i':
 			r = rand()%9; //Evitamos el valor previo
 			r = (r < *((int*)l_getValue(l).dato))?r:r+1;
+			l_setValue(l, 'i', (void*)(&r));
 			break;
 		case 'c':
 			rc = rand()%5; //Evitamos el valor previo
 			rc = ((rc+'A' < *((char*)l_getValue(l).dato))?rc:rc+1) + 'A';
+			l_setValue(l, 'c', (void*)(&rc));
 			break;
 		case 'b':
 			*(char*)l_getValue(l).dato = !(*(char*)l_getValue(l).dato);//Negamos
