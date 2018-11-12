@@ -3,14 +3,6 @@ import java.util.*;
 
 public class Picaro extends Clase {
 
-  private Armadura;
-
-  public int getArmadura() {
-    return this.Armadura;
-  }
-  public void setArmadura(int num) {
-    this.Armadura = num
-  }
   public void crearClase() {
     setArmadura(10);
   }
