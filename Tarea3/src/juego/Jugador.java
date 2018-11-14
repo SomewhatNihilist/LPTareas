@@ -44,12 +44,12 @@ public class Jugador implements Personaje {
 	public void asignarNombre(String name) {
 		nombre = name;
 	}
-	
+
 	public void printStatus() {
 		System.out.println(nombre +", "+ rz.getNombreRaza() +" "+ cl.getNombreClase() +".");
 		System.out.println("Tienes "+ Integer.toString(vida) +" de vida.");
 	}
-	
+
 	public String getNombre() { return nombre; }
 	public raza.Raza getRaza() { return rz; }
 	public clase.Clase getClase() { return cl; }
@@ -58,6 +58,11 @@ public class Jugador implements Personaje {
 	public Boolean getDef() { return def; }
 	public void setDef(Boolean bool) { def = bool; }
 
+	/**Ejecuta el turno del Jugador.
+	 * Se puede (1)Atacar, (2)Entrar en defensa,
+	 * (3)Observar y obtener estadisticas basicas del oponente,
+	 * (4)Contemplar y saltarse el turno.
+	 * @param opp Referencia al oponente con el que se enfrenta. */
 	public void turno(Personaje opp) {
 		setDef(false);
 		vida += rz.habilidad(Juego.CTXT_TURN);
@@ -76,15 +81,15 @@ public class Jugador implements Personaje {
 				System.out.println("  Observas tu oponente: ");
 				opp.printStatus();
 			} else {
-				String[] junk = {"el cielo.", "el numero 42.", "la vida.",
+				String[] obs = {"el cielo.", "el numero 42.", "la vida.",
 						"la compleja cadena de eventos que ha llevado hasta este momento.",
 						"el hecho de que te has detenido en mitad de combate.",
 						"las motivaciones del tus captores.", "si realmente deberias salvar el mundo.",
-						"la moralidad de matar a otros para salvarte a ti mismo.", 
-						"la inmortalidad del cangrejo.", "que dia es hoy.", 
+						"la moralidad de matar a otros para salvarte a ti mismo.",
+						"la inmortalidad del cangrejo.", "que dia es hoy.",
 						"que estabas respirando inconcientemente hasta que pensaste en ello.",
 						"nada."};
-				System.out.println("Decides detenerte por exactamente 6 segundos a contemplar " + junk[Juego.rand.nextInt(12)]);
+				System.out.println("Decides detenerte por exactamente 6 segundos a contemplar " + obs[Juego.rand.nextInt(12)]);
 			}
 		} while(inp == 3);
 	}

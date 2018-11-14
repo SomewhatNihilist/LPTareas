@@ -41,7 +41,7 @@ public class Enemigo implements Personaje {
 	public void asignarNombre(String name) {
 		nombre = name;
 	}
-	
+
 	public void printStatus() {
 		System.out.println(nombre +", "+ rz.getNombreRaza() +" "+ cl.getNombreClase() +".");
 		System.out.println("Tiene "+ Integer.toString(vida) +" de vida.");
@@ -55,6 +55,8 @@ public class Enemigo implements Personaje {
 	public Boolean getDef() { return def; }
 	public void setDef(Boolean bool) { def = bool; }
 
+	/**Ejecuta el turno del Enemigo. Hace una seleccion semi-aleatoria entre atacar o defender.
+	 * @param opp Referencia al oponente con el que se enfrenta. */
 	public void turno(Personaje opp) {
 		setDef(false);
 		vida += rz.habilidad(Juego.CTXT_TURN);

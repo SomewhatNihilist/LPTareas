@@ -15,7 +15,7 @@ public class Juego {
 	//(Klrak,enba)(Adran,elpi)(Isaac,hucl)(Elysium,elma)(Krrogh,orba)(Jenkins,huma)
 
 
-
+	/**Funcion main. Ejecuta el juego. */
 	public static void main(String[] args) {
 
 		System.out.println("\nBienvenido a Dunyons & Doragons");
@@ -25,7 +25,7 @@ public class Juego {
 		System.out.println(" El 'noble' te promete la libertad... pero solo si logras vencer en el torneo!");
 		do {
 			System.out.println(" Tres batallas consecutivas, sin apenas un descanso, esto no sera facil.");
-	
+
 			Jugador player = new Jugador();
 			List<Enemigo> enemies = new ArrayList<Enemigo>(3);
 			generarEnemigos(enemies);
@@ -52,7 +52,7 @@ public class Juego {
 	 * @param p1 Personaje numero 1 que peleara.
 	 * @return Numero 0 o 1 correspondiente al ganador.
 	 */
-	public static int fightLoop(Personaje p0,Personaje p1) {		
+	public static int fightLoop(Personaje p0,Personaje p1) {
 		// Alternamos turn entre [0,1] para elegir personaje activo
 		// Esto da mas flexibilidad (ej. Combate entre NPCs)
 		Personaje[] actores = {p0, p1};
