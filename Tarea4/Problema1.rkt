@@ -1,4 +1,4 @@
-#lang racket
+#lang scheme
 ; (biseccion funcion intervalo iter)  funcion
 ;((biseccion funcion) intervalo iter) decorador
 #|(define (biseccion foo pair num)
@@ -16,11 +16,11 @@
          (m (/ (+ a b) 2)))
     (if (and (< a b) (negative? (* (foo a) (foo b)))) ; valid interval?
         (if (or (zero? iter) (zero? (foo m)))
-            m ; Max iter or found
-            (if (negative? (* (foo a) (foo m))) ; do function
+            m ; Max iter or zero found
+            (if (negative? (* (foo a) (foo m))) ; do next iter
                 (biseccion foo (list a m) (- iter 1))
                 (biseccion foo (list m b) (- iter 1))))
-        null)))
+        null))) ; invalid interval
 
 (define test1 (biseccion (lambda(x)(+ (* x x) (* 2 x) -3)) '(0 2) 10)) ; x^2 + 2x - 3 ... x=-3 x=1 (simetric at -1)
 (define (test2 a b) (biseccion (lambda(x)(+ (* x x x) (* 3 x x) -2)) (list a b) 100))
