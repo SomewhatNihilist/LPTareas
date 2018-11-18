@@ -1,0 +1,11 @@
+#lang scheme
+; (biseccion funcion intervalo iter)  funcion
+;((biseccion funcion) intervalo iter) decorador
+#|(define (biseccion foo pair num)
+  (let ((m (/ (- (car pair) (car(cdr pair))) 2))) (m)))|#
+
+(define ((biseccion foo) pair num)
+  (let* ((a (car pair))
+         (b (car (cdr pair)))
+         (m (/ (- b a))))
+    (foo a b)))
