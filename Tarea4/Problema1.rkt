@@ -1,14 +1,8 @@
 #lang scheme
+; Problema 1, Biseccion
 ; (biseccion funcion intervalo iter)  funcion
-;((biseccion funcion) intervalo iter) decorador
-#|(define (biseccion foo pair num)
-  (let ((m (/ (- (car pair) (car(cdr pair))) 2))) (m)))|#
+;((biseccion funcion) intervalo iter) decorador? no funciona
 
-#|(define ((biseccion foo) pair iter)
-  (let* ((a (car pair))
-         (b (car (cdr pair)))
-         (m (/ (- b a))))
-    (if (foo m) (1) (0))))|#
 
 (define (biseccion foo pair iter)
   (let* ((a (car pair))

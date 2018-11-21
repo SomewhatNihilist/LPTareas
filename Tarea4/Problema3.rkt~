@@ -1,0 +1,11 @@
+#lang scheme
+; '(valor_nodo arbol_izquierdo arbol_derecho)
+
+(define (hoja? node) (andmap null? (cdr node)))
+
+(define (suma_arbol arbol numero)
+  (
+
+
+
+; (suma_arbol '(8 (3 (1 () ()) (6 (4 () ()))) (10 () ())) 1)
