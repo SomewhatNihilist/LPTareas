@@ -12,8 +12,8 @@
   (if (= (length lst1) (length lst2))
       (map (lambda (a b) (bool->bin (foo (bin->bool a) (bin->bool b)))) lst1 lst2)
       (raise-argument-error 'operar
-                            "(= (length lst1) (length lst2))"
-                            (format "(= ~a ~a)" (length lst1) (length lst2)))))
+                            "both lists must have same size"
+                            (format "lst1: ~a, lst2: ~a" (length lst1) (length lst2)))))
 
 
 (operar xor (list 0 1 1 1) (list 0 0 1 0))
