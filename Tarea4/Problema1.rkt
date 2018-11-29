@@ -1,7 +1,5 @@
 #lang scheme
 ; Problema 1, Biseccion
-; (biseccion funcion intervalo iter)  funcion
-;((biseccion funcion) intervalo iter) decorador? no funciona
 
 #|
 Funcion: biseccion
