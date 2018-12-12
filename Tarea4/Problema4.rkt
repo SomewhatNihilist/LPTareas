@@ -1,25 +1,23 @@
 #lang scheme
 ; Problema 4, Replicacion de elementos de una lista
 
-; Por iteracion manual sobre listas
-; Argumento lista >= largo que lista_rep (los elementos sobrantes de lista son ignorados)
-; Si lista < lista_rep, retorna null
+#|
+Funcion: replicar
+Descripcion: Se recibe una lista a replicar y otra lista que indica cuantas veces
+             se debe replicar cada posicion de la primera lista
+Parametros:
+lista (lista a replicar)
+lista_rep (lista indicando cantidad de veces a replicar la lista anterior)
+Retorno: Retorna una lista que es el resultado de replicar la lista original con la cantidad de
+         veces mencionadas en lista_rep, si lista < lista_rep, retorna null
+         y si lista >= largo que lista_rep (los elementos sobrantes de lista son ignorados)
+|#
 (define (replicar lista lista_rep)
   (if (not (>= (length lista) (length lista_rep))) null
       (let aux ((ls lista) (lsr lista_rep) (outp (list)))
         (cond ((null? lsr) (reverse outp))
               ((<= (car lsr) 0) (aux (cdr ls) (cdr lsr) outp))
               (else (aux ls (list* (- (car lsr) 1) (cdr lsr)) (list* (car ls) outp)))))))
-
-; Por medio de map y append
-; Ambos argumentos (lista lista_rep) tienen que ser del mismo largo.
-(define (replicar2 lista lista_rep)
-  (apply append (map ; genera una lista de listas, posteriormente unida por append
-                 (lambda (val rep) ; genera una lista con rep veces val '(val val ...rep... val)
-                   (let aux ((i rep) (acc (list)))
-                     (if (<= i 0) acc
-                         (aux (- i 1) (list* val acc)))))
-                 lista lista_rep)))
 
 (define test1 (replicar '(a b c d e) '(1 2 3))) ; Elementos de lista en exceso son ignorados (d e)
 (define test2 (replicar '(a b c) '(1 2 3 4))) ; Retorna null cuando lista_rep es mayor
