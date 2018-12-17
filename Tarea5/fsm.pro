@@ -31,8 +31,8 @@ alfabeto(b).
 alfabeto(c).
 alfabeto(d).
 
-es_lenguaje(L) :- es_lenguaje(L,q0).
-es_lenguaje([],q7).
-es_lenguaje([],q10).
-es_lenguaje([X|T],S) :- alfabeto(X), e(S,X,S1), es_lenguaje(T,S1),!.
-es_lenguaje([X|T],S) :- \+alfabeto(X), e(S,X,S1).
+es_lenguaje(L, Q, B):-es_lenguaje(L, q0, Q, B).
+es_lenguaje([], q7, q7, true):-!.
+es_lenguaje([], q10, q10, true):-!.
+es_lenguaje([X|T], S, Q, B):- alfabeto(X), e(S, X, S1), es_lenguaje(T, S1, Q, B),!;
+                              Q = S, B = false,!.
