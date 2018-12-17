@@ -12,3 +12,27 @@
   % Todas los sı́mbolos del alfabeto deben ocuparse en al menos una transición.
 % Además, se debe poder realizar una consulta, dado una cadena de sı́mbolos, saber
 % si esta pertenece al lenguaje o no, entregando el estado en que se detuvo
+
+e(q0,d,q1).
+e(q1,b,q2).
+e(q2,a,q3).
+e(q3,b,q3).
+e(q3,a,q4).
+e(q4,b,q2).
+e(q4,d,q6).
+e(q6,b,q7).
+e(q4,c,q5).
+e(q5,b,q8).
+e(q8,d,q9).
+e(q9,c,q10).
+
+alfabeto(a).
+alfabeto(b).
+alfabeto(c).
+alfabeto(d).
+
+es_lenguaje(L) :- es_lenguaje(L,q0).
+es_lenguaje([],q7).
+es_lenguaje([],q10).
+es_lenguaje([X|T],S) :- alfabeto(X), e(S,X,S1), es_lenguaje(T,S1),!.
+es_lenguaje([X|T],S) :- \+alfabeto(X), e(S,X,S1).
